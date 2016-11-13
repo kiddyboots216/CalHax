@@ -57,11 +57,38 @@ def find_food(food):
 class StringGenerator(object):
     @cherrypy.expose
     def index(self):
-        return """<html>
-          <head></head>
+        return """
+        <html>
+          <head>
+            <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+            <style>
+              .title {
+                font-family: 'Roboto', sans-serif;
+                font-size: 50px;
+                padding-left: 5%;
+                padding-top: 5%;
+                padding-bottom: 5%;
+                background: #ffb366;
+                color: #ffffff;
+              }
+              .form{
+                margin-left: 10%;
+                border: 2px solid #cccccc;
+                height: 10%;
+                width: 60%;
+                text-align: center;
+                font-family: 'Roboto', sans-serif;
+                font-size: 15px;
+                color: #808080;
+              }
+            </style>
+
+          </head>
           <body>
+            <h1 class = "title">When To Dine</h3>
             <form method="get" action="generate">
-              <input type="text" value="What are you hungry for?" name="food" />
+              <input type="text" value="What are you hungry for?" class = "form" name="food" />
+              <br>
               <button type="submit">Let's Find Out!</button>
             </form>
           </body>
@@ -69,7 +96,42 @@ class StringGenerator(object):
 
     @cherrypy.expose
     def generate(self, food='Pasta'):
-        return find_food(food)
+      result = find_food(food)
+      return """
+      <html>
+        <head>
+          <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+          <style>
+            .title {
+              font-family: 'Roboto', sans-serif;
+              font-size: 50px;
+              padding-left: 5%;
+              padding-top: 5%;
+              padding-bottom: 5%;
+              background: #ffb366;
+              color: #ffffff;
+            }
+            .form{
+              margin-left: 10%;
+              border: 2px solid #cccccc;
+              height: 10%;
+              width: 60%;
+              text-align: center;
+              font-family: 'Roboto', sans-serif;
+              font-size: 15px;
+              color: #808080;
+            }
+          </style>
+        </head>
+        <body>
+          <div id = 'result'>result</div>
+        </body>
+      </html>
+      <script>
+      document.getElementById('result').value = result
+      </script>
+      """
+
 
 if __name__ == '__main__':
     cherrypy.quickstart(StringGenerator())
