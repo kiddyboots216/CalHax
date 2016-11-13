@@ -72,14 +72,29 @@ class StringGenerator(object):
                 color: #ffffff;
               }
               .form{
-                margin-left: 10%;
+                margin-top: 2%;
                 border: 2px solid #cccccc;
                 height: 10%;
                 width: 60%;
                 text-align: center;
                 font-family: 'Roboto', sans-serif;
-                font-size: 15px;
+                font-size: 18px;
                 color: #808080;
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+              }
+              .button {
+                background: #ffcc66;
+                border: = none;
+                color: white;
+                text-align: center;
+                font-family: 'Roboto', sans-serif;
+                font-size: 18px;
+                margin-top: 2%;
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
               }
             </style>
 
@@ -87,50 +102,41 @@ class StringGenerator(object):
           <body>
             <h1 class = "title">When To Dine</h3>
             <form method="get" action="generate">
-              <input type="text" value="What are you hungry for?" class = "form" name="food" />
+              <input type="text" placeholder="What are you hungry for?" class = "form" name="food" onclick="this.select();"/>
               <br>
-              <button type="submit">Let's Find Out!</button>
+              <button type="submit" class = "button">Let's Find Out!</button>
             </form>
           </body>
         </html>"""
 
     @cherrypy.expose
     def generate(self, food='Pasta'):
-      result = find_food(food)
-      return """
+      result = '<br>'.join(find_food(food))
+      html =  """
       <html>
         <head>
           <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
           <style>
-            .title {
+            body{
+              background: #ffb366;
+            }
+            .output {
               font-family: 'Roboto', sans-serif;
               font-size: 50px;
-              padding-left: 5%;
-              padding-top: 5%;
-              padding-bottom: 5%;
-              background: #ffb366;
+              padding-top: 1em;
+              padding-bottom: 1em;
+              text-align: center;
               color: #ffffff;
             }
-            .form{
-              margin-left: 10%;
-              border: 2px solid #cccccc;
-              height: 10%;
-              width: 60%;
-              text-align: center;
-              font-family: 'Roboto', sans-serif;
-              font-size: 15px;
-              color: #808080;
-            }
           </style>
+
         </head>
         <body>
-          <div id = 'result'>result</div>
+          <div class = "output">%s</div>
         </body>
-      </html>
-      <script>
-      document.getElementById('result').value = result
-      </script>
-      """
+      </html>""" % result
+
+      return html
 
 
 if __name__ == '__main__':
